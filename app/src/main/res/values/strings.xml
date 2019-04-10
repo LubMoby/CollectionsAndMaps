@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Collections and Maps</string>
+
+    <string name="collections_tab">Collections</string>
+    <string name="maps_tab">Maps</string>
+    <string name="calculate">Calculate</string>
+    <string name="hello_world">fragment _pager_list</string>
+</resources>
