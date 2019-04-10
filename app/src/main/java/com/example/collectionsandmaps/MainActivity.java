@@ -8,22 +8,39 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.view.View;
+
+import java.util.ArrayList;
+
+import butterknife.BindString;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MainActivity extends FragmentActivity{
     SectionsPagerAdapter pagerAdapter;
-    ViewPager pager;
+    @BindView(R.id.pager) ViewPager pager;
+    @BindView(R.id.tabs) TabLayout tabLayout;
+    @BindString(R.string.collections_tab) String tabCollections;
+    @BindString(R.string.maps_tab) String tabMaps;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
         pagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        pager = findViewById(R.id.pager);
         pager.setAdapter(pagerAdapter);
 
-        TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(pager);
+    }
+
+    public void onClickCalculate(View view) {
+        //1.Здесь будем запускать отдельный поток для рассчета
+        //Покажем прогресс бар
+        //заполним таблицу
+        ArrayList<String> arrayList = Calculate.FillArray();
+        //
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
@@ -36,8 +53,8 @@ public class MainActivity extends FragmentActivity{
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position){
-                case 0: return getResources().getText(R.string.collections_tab);
-                case 1: return getResources().getText(R.string.maps_tab);
+                case 0: return tabCollections;
+                case 1: return tabMaps;
             }
             return null;
         }
@@ -50,7 +67,6 @@ public class MainActivity extends FragmentActivity{
             }
             return null;
         }
-
         @Override
         public int getCount() {
             return 2;
