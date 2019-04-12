@@ -3,6 +3,7 @@
 
     <string name="collections_tab">Collections</string>
     <string name="maps_tab">Maps</string>
-    <string name="calculate">Calculate</string>
-    <string name="hello_world">fragment _pager_list</string>
+
+    <string name="button_collections">calculate collections</string>
+    <string name="button_maps">calculate maps</string>
 </resources>

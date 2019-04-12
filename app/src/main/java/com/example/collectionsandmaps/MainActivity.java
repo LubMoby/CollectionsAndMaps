@@ -35,14 +35,6 @@ public class MainActivity extends FragmentActivity{
         tabLayout.setupWithViewPager(pager);
     }
 
-    public void onClickCalculate(View view) {
-        //1.Здесь будем запускать отдельный поток для рассчета
-        //Покажем прогресс бар
-        //заполним таблицу
-        ArrayList<String> arrayList = Calculate.FillArray();
-        //
-    }
-
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
