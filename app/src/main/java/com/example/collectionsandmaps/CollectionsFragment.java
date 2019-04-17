@@ -1,18 +1,17 @@
 package com.example.collectionsandmaps;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,7 +21,9 @@ public class CollectionsFragment extends Fragment{
     protected RecyclerView collectionRecycler;
     protected Button collectionsButton;
     private Unbinder unbinder;
-    @BindView(R.id.collection_recycler) RecyclerView collection_recycler;
+    //@BindView(R.id.collection_recycler) RecyclerView collection_recycler;
+    private ArrayList<CollectionsTestResult> resultList;
+    private CollectionsAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -30,23 +31,25 @@ public class CollectionsFragment extends Fragment{
         View rootView = inflater.inflate(R.layout.fragment_collection,container,false);
         unbinder = ButterKnife.bind(this, rootView);
         collectionRecycler = rootView.findViewById(R.id.collection_recycler);
-        ArrayList<String> arrayList = new ArrayList<>();
-        List<String> linkedList = new LinkedList<>();
-        CopyOnWriteArrayList copyOnWriteArrayList = new CopyOnWriteArrayList();
-        arrayList.add("Action"); arrayList.add("ArrayList"); arrayList.add("LinkedList"); arrayList.add("Copy On Write ArrayList");
-        for (int i = 1; i < 10 ; i++) {
-            arrayList.add(" " + Integer.toString(i));
-        }
 
-        CollectionsAdapter adapter = new CollectionsAdapter(arrayList);
+        resultList = new ArrayList<>();
+//        resultList.add(new CollectionsTestResult("test1",100,100,100));
+//        resultList.add(new CollectionsTestResult("test2",100,100,100));
+//        resultList.add(new CollectionsTestResult("test3",100,100,100));
+//        resultList.add(new CollectionsTestResult("test4",100,100,100));
+
+        resultList = (ArrayList<CollectionsTestResult>)Calculate.resultTest();
+
+        adapter = new CollectionsAdapter(resultList);
         collectionRecycler.setAdapter(adapter);
-        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(),4);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         collectionRecycler.setLayoutManager(layoutManager);
         Button collectionsButton = rootView.findViewById(R.id.button_collections);
         collectionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onClickCalculate(v);
+                new  CalculateResultTest().execute(resultList,resultList);
+                adapter.notifyDataSetChanged();
             }
         });
         return rootView;
@@ -56,7 +59,19 @@ public class CollectionsFragment extends Fragment{
         super.onDestroyView();
         unbinder.unbind();
     }
-    public void onClickCalculate(View view) {
-        //
+
+    private class CalculateResultTest extends AsyncTask<ArrayList<CollectionsTestResult>,Void,ArrayList<CollectionsTestResult>>{
+
+        @Override
+        protected void onPreExecute() {
+            resultList.clear();
+        }
+
+            @Override
+        protected ArrayList<CollectionsTestResult> doInBackground(ArrayList<CollectionsTestResult>... arrayLists) {
+                resultList = (ArrayList<CollectionsTestResult>)Calculate.resultTest();
+            return resultList;
+        }
     }
 }
+
