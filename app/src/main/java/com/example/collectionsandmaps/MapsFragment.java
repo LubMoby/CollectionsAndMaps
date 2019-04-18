@@ -29,10 +29,10 @@ public class MapsFragment extends Fragment {
         unbinder = ButterKnife.bind(this, rootView);
         mapRecycler = rootView.findViewById(R.id.maps_recycler);
 
-        ArrayList<String> arrayList = new ArrayList<>();
-        for (int i = 10; i < 100 ; i++) {
-            arrayList.add(" Значение " + Integer.toString(i));
-        }
+        ArrayList<CollectionsTestResult> arrayList = new ArrayList<>();
+//        for (int i = 10; i < 100 ; i++) {
+//            arrayList.add(" Значение " + Integer.toString(i));
+//        }
 
         CollectionsAdapter adapter = new CollectionsAdapter(arrayList);
         mapRecycler.setAdapter(adapter);
