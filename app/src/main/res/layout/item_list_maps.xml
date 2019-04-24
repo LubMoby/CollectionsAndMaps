@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/card_view"
+    android:id="@+id/card_view_maps"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
@@ -13,7 +13,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/info_name_test"
+            android:id="@+id/info_name_test_maps"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
@@ -23,7 +23,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
         <TextView
-            android:id="@+id/info_array_list"
+            android:id="@+id/info_tree_map"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="4dp"
@@ -33,23 +33,12 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
         <TextView
-            android:id="@+id/info_linked_list"
+            android:id="@+id/info_hash_map"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="4dp"
             android:layout_weight="1"
             android:gravity="center_horizontal|center_vertical"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
-
-        <TextView
-            android:id="@+id/info_copyonwrite_list"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
-            android:layout_weight="1"
-            android:background="?attr/dividerVertical"
-            android:gravity="center_horizontal|center_vertical"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
-    </LinearLayout>
+     </LinearLayout>
 </android.support.v7.widget.CardView>

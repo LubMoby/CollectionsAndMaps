@@ -48,7 +48,7 @@ public class CollectionsAdapter extends RecyclerView.Adapter<CollectionsAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         if(i == 0){
-            viewHolder.name_test.setText("TESTS FOR COLLECTIONS");
+            viewHolder.name_test.setText("Tests for collections");
             viewHolder.array_list_test.setText("ArrayList");
             viewHolder.linked_list_test.setText("LinkedList");
             viewHolder.copyonwrite_list_test.setText("CopyOnWriteArrayList");
@@ -58,9 +58,5 @@ public class CollectionsAdapter extends RecyclerView.Adapter<CollectionsAdapter.
             viewHolder.linked_list_test.setText(Long.toString(collectionsList.get(i).timeForLinkedList));
             viewHolder.copyonwrite_list_test.setText(Long.toString(collectionsList.get(i).timeForCopyOnWriteArrayList));
         }
-
-//        CardView cardView = viewHolder.cardView;
-//        TextView textView1 = cardView.findViewById(R.id.info_name_test);
-//        textView1.setText(collectionsList.get(i).nameTest);
     }
 }

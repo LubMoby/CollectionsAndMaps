@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +19,10 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 public class CollectionsFragment extends Fragment{
-    protected RecyclerView collectionRecycler;
-    protected Button collectionsButton;
+    private RecyclerView collectionRecycler;
+    private CollectionsAdapter adapterCollections;
     private Unbinder unbinder;
-    //@BindView(R.id.collection_recycler) RecyclerView collection_recycler;
-    private ArrayList<CollectionsTestResult> resultList;
-    private CollectionsAdapter adapter;
+    @BindView(R.id.progress_bar) ProgressBar progressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -32,28 +31,16 @@ public class CollectionsFragment extends Fragment{
         unbinder = ButterKnife.bind(this, rootView);
         collectionRecycler = rootView.findViewById(R.id.collection_recycler);
 
-        resultList = new ArrayList<>();
-//        resultList.add(new CollectionsTestResult("test1",100,100,100));
-//        resultList.add(new CollectionsTestResult("test2",100,100,100));
-//        resultList.add(new CollectionsTestResult("test3",100,100,100));
-//        resultList.add(new CollectionsTestResult("test4",100,100,100));
-
-        resultList = (ArrayList<CollectionsTestResult>)Calculate.resultTest();
-
-        adapter = new CollectionsAdapter(resultList);
-        collectionRecycler.setAdapter(adapter);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        collectionRecycler.setLayoutManager(layoutManager);
         Button collectionsButton = rootView.findViewById(R.id.button_collections);
         collectionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new  CalculateResultTest().execute(resultList,resultList);
-                adapter.notifyDataSetChanged();
+                new CalculateResultTest().execute();
             }
         });
         return rootView;
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -64,13 +51,36 @@ public class CollectionsFragment extends Fragment{
 
         @Override
         protected void onPreExecute() {
-            resultList.clear();
+            super.onPreExecute();
+            progressBar.setVisibility(View.VISIBLE);
+            collectionRecycler.setVisibility(View.INVISIBLE);
         }
 
-            @Override
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+         }
+
+        @Override
         protected ArrayList<CollectionsTestResult> doInBackground(ArrayList<CollectionsTestResult>... arrayLists) {
-                resultList = (ArrayList<CollectionsTestResult>)Calculate.resultTest();
-            return resultList;
+            try {
+                return new CalculateCollections(10000,100000).getListResultCollections();
+            }catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<CollectionsTestResult> resultList){
+            super.onPostExecute(resultList);
+            progressBar.setVisibility(View.GONE);
+            collectionRecycler.setVisibility(View.VISIBLE);
+            adapterCollections = new CollectionsAdapter(resultList);
+            collectionRecycler.setAdapter(adapterCollections);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+            collectionRecycler.setLayoutManager(layoutManager);
+            adapterCollections.notifyDataSetChanged();
         }
     }
 }

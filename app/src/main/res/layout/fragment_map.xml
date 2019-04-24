@@ -11,6 +11,15 @@
         android:layout_weight="1"
         android:scrollbars="vertical">
     </android.support.v7.widget.RecyclerView>
+
+    <ProgressBar
+        android:id="@+id/progress_bar_maps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_gravity="center_vertical|center_horizontal">
+    </ProgressBar>
+
     <Button
         android:id="@+id/button_maps"
         android:layout_width="match_parent"
@@ -18,9 +27,5 @@
         android:layout_gravity="bottom"
         android:padding="2dp"
         android:text="@string/button_maps"
-        android:onClick="onClickMapsCalculate"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 </LinearLayout>
-
-  <!--  android:scrollbars="vertical"
--->

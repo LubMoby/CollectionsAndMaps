@@ -7,90 +7,98 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import static java.lang.System.currentTimeMillis;
 
-public class Calculate {
+public class CalculateCollections {
+    private int sizeStart;
+    private int sizeEnd;
+    private ArrayList<Integer> arrayList;
+    private LinkedList<Integer> linkedList;
+    private CopyOnWriteArrayList<Integer> copyOnWriteArrayList;
+    private ArrayList<CollectionsTestResult> listResultCollections;
 
-    public static List<CollectionsTestResult> resultTest(){
-        List<CollectionsTestResult> listResult = new ArrayList<>();
-        CalculateIt(listResult);
-        return listResult;
+    CalculateCollections(int sizeStart, int sizeEnd){
+        this.sizeStart = sizeStart;
+        this.sizeEnd = sizeEnd;
+        this.arrayList = new ArrayList<>();
+        this.linkedList = new LinkedList<>();
+        this.copyOnWriteArrayList = new CopyOnWriteArrayList<>();
+        this.listResultCollections = new ArrayList<>();
+
+        init(arrayList);
+        init(linkedList);
+        init(copyOnWriteArrayList);
     }
 
-    private static void CalculateIt(List<CollectionsTestResult> list) {
-        final int sizeStart = 10;
-        final int sizeEnd = 1000;
-        ArrayList<Integer> arrayList = new ArrayList<>();
-        LinkedList<Integer> linkedList = new LinkedList<>();
-        CopyOnWriteArrayList<Integer> copyOnWriteArrayList = new CopyOnWriteArrayList<>();
+    public ArrayList<CollectionsTestResult> getListResultCollections() {
+        colculateCollections();
+        return listResultCollections;
+    }
 
-        init(arrayList, sizeStart, sizeEnd);
-        init(linkedList, sizeStart, sizeEnd);
-        init(copyOnWriteArrayList, sizeStart, sizeEnd);
-
-        //List<CollectionsTestResult> list = new ArrayList<>();
+    private void colculateCollections() {
         long timeForArrayList;
         long timeForLinkedList;
         long timeForCopyOnWriteArrayList;
-        String nameTest;
+        String nameTest = "";
+        int element = 55;
 
-        addToListTestResult(list, "", 0, 0, 0);
+        addToListTestResult("Загаловок", 0, 0, 0);
 
         nameTest = "Adding in the beginning";
-        timeForArrayList = addFirst(arrayList, 55);
-        timeForLinkedList = addFirst(linkedList, 55);
-        timeForCopyOnWriteArrayList = addFirst(copyOnWriteArrayList, 55);
-        addToListTestResult(list, nameTest, timeForArrayList, timeForLinkedList, timeForCopyOnWriteArrayList);
+        timeForArrayList = addFirst(arrayList, element);
+        timeForLinkedList = addFirst(linkedList, element);
+        timeForCopyOnWriteArrayList = addFirst(copyOnWriteArrayList, element);
+        addToListTestResult(nameTest, timeForArrayList, timeForLinkedList, timeForCopyOnWriteArrayList);
 
         nameTest = "Adding in the middle";
-        timeForArrayList = addMiddle(arrayList, 55);
-        timeForLinkedList = addMiddle(linkedList, 55);
-        timeForCopyOnWriteArrayList = addMiddle(copyOnWriteArrayList, 55);
-        addToListTestResult(list, nameTest, timeForArrayList, timeForLinkedList, timeForCopyOnWriteArrayList);
+        timeForArrayList = addMiddle(arrayList, element);
+        timeForLinkedList = addMiddle(linkedList, element);
+        timeForCopyOnWriteArrayList = addMiddle(copyOnWriteArrayList, element);
+        addToListTestResult(nameTest, timeForArrayList, timeForLinkedList, timeForCopyOnWriteArrayList);
 
         nameTest = "Adding in the end";
-        timeForArrayList = addEnd(arrayList, 55);
-        timeForLinkedList = addEnd(linkedList, 55);
-        timeForCopyOnWriteArrayList = addEnd(copyOnWriteArrayList, 55);
-        addToListTestResult(list, nameTest, timeForArrayList, timeForLinkedList, timeForCopyOnWriteArrayList);
+        timeForArrayList = addEnd(arrayList, element);
+        timeForLinkedList = addEnd(linkedList, element);
+        timeForCopyOnWriteArrayList = addEnd(copyOnWriteArrayList, element);
+        addToListTestResult(nameTest, timeForArrayList, timeForLinkedList, timeForCopyOnWriteArrayList);
 
         nameTest = "Search by value";
         int value = (int) (Math.random() * sizeEnd - sizeStart + 1) + sizeStart;
         timeForArrayList = searchByValue(arrayList, value);
         timeForLinkedList = searchByValue(linkedList, value);
         timeForCopyOnWriteArrayList = searchByValue(copyOnWriteArrayList, value);
-        addToListTestResult(list, nameTest, timeForArrayList, timeForLinkedList, timeForCopyOnWriteArrayList);
+        addToListTestResult(nameTest, timeForArrayList, timeForLinkedList, timeForCopyOnWriteArrayList);
 
         nameTest = "Removing in the beginning";
         timeForArrayList = removeBeginning(arrayList);
         timeForLinkedList = removeBeginning(linkedList);
         timeForCopyOnWriteArrayList = removeBeginning(copyOnWriteArrayList);
-        addToListTestResult(list, nameTest, timeForArrayList, timeForLinkedList, timeForCopyOnWriteArrayList);
+        addToListTestResult(nameTest, timeForArrayList, timeForLinkedList, timeForCopyOnWriteArrayList);
 
         nameTest = "Removing in the middle";
         timeForArrayList = removeMiddle(arrayList);
         timeForLinkedList = removeMiddle(linkedList);
         timeForCopyOnWriteArrayList = removeMiddle(copyOnWriteArrayList);
-        addToListTestResult(list, nameTest, timeForArrayList, timeForLinkedList, timeForCopyOnWriteArrayList);
+        addToListTestResult(nameTest, timeForArrayList, timeForLinkedList, timeForCopyOnWriteArrayList);
 
         nameTest = "Removing in the end";
         timeForArrayList = removeEnd(arrayList);
         timeForLinkedList = removeEnd(linkedList);
         timeForCopyOnWriteArrayList = removeEnd(copyOnWriteArrayList);
-        addToListTestResult(list, nameTest, timeForArrayList, timeForLinkedList, timeForCopyOnWriteArrayList);
+        addToListTestResult(nameTest, timeForArrayList, timeForLinkedList, timeForCopyOnWriteArrayList);
 
     }
 
-    private static void addToListTestResult(List<CollectionsTestResult> list, String nameTest, long timeForArrayList, long timeForLinkedList, long timeForCopyOnWriteArrayList ){
+    private void addToListTestResult(String nameTest,long timeForArrayList, long timeForLinkedList, long timeForCopyOnWriteArrayList ){
         CollectionsTestResult testResult = new CollectionsTestResult(nameTest, timeForArrayList, timeForLinkedList, timeForCopyOnWriteArrayList);
-        list.add(testResult);
+        listResultCollections.add(testResult);
     }
 
-    private static void init(List list, int sizeStart, int sizeEnd) {
-        for (int i = 0; i < sizeEnd-sizeStart ; i++) {
-            list.add(sizeStart++);
+    private void init (List list){
+        for (int i = 0; i < sizeEnd - sizeStart; i++) {
+            list.add(sizeStart+i);
         }
     }
 
-    private static long addFirst(List list, int elementInt){
+    private long addFirst (List list, int elementInt){
         long startTime;
         long stopTime;
         if (list instanceof LinkedList) {
@@ -99,7 +107,7 @@ public class Calculate {
             linkedList.addFirst(elementInt);
             stopTime = currentTimeMillis();
             return stopTime - startTime;
-        }else{
+        } else {
             startTime = currentTimeMillis();
             list.add(0, elementInt);
             stopTime = currentTimeMillis();
@@ -107,16 +115,16 @@ public class Calculate {
         }
     }
 
-    private static long addMiddle(List list, int elementInt){
+    private long addMiddle (List list,int elementInt){
         long startTime;
         long stopTime;
         startTime = currentTimeMillis();
-        list.add((int)(list.size() / 2), elementInt);
+        list.add((int) (list.size() / 2), elementInt);
         stopTime = currentTimeMillis();
         return stopTime - startTime;
     }
 
-    private static long addEnd(List list, int elementInt){
+    private long addEnd (List list,int elementInt){
         long startTime;
         long stopTime;
         startTime = currentTimeMillis();
@@ -125,7 +133,7 @@ public class Calculate {
         return stopTime - startTime;
     }
 
-    private static long searchByValue(List list, int value){
+    private long searchByValue (List list,int value){
         long startTime;
         long stopTime;
         startTime = currentTimeMillis();
@@ -134,7 +142,7 @@ public class Calculate {
         return stopTime - startTime;
     }
 
-    private static long removeBeginning(List list){
+    private long removeBeginning (List list){
         long startTime;
         long stopTime;
         startTime = currentTimeMillis();
@@ -143,20 +151,20 @@ public class Calculate {
         return stopTime - startTime;
     }
 
-    private static long removeMiddle(List list){
+    private long removeMiddle (List list){
         long startTime;
         long stopTime;
         startTime = currentTimeMillis();
-        list.remove((int)list.size()/2);
+        list.remove((int) list.size() / 2);
         stopTime = currentTimeMillis();
         return stopTime - startTime;
     }
 
-    private static long removeEnd(List list){
+    private long removeEnd (List list){
         long startTime;
         long stopTime;
         startTime = currentTimeMillis();
-        list.remove(list.size()-1);
+        list.remove(list.size() - 1);
         stopTime = currentTimeMillis();
         return stopTime - startTime;
     }
