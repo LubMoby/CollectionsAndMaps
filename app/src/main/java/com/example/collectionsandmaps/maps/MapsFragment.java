@@ -1,4 +1,4 @@
-package com.example.collectionsandmaps;
+package com.example.collectionsandmaps.maps;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
+import com.example.collectionsandmaps.R;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -19,18 +21,30 @@ import butterknife.Unbinder;
 
 public class MapsFragment extends Fragment {
     private RecyclerView mapsRecycler;
-    private MapsAdapter mapsAdapter;
     private Unbinder unbinder;
     @BindView(R.id.progress_bar_maps)
     ProgressBar progressBarMaps;
+
+    private ArrayList<MapsTestResult> testResults;
+
+    private MapsAdapter mapsAdapter;
+
+    private LinearLayoutManager linearLayoutManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_map,container,false);
         unbinder = ButterKnife.bind(this, rootView);
-        mapsRecycler = rootView.findViewById(R.id.maps_recycler);
+//        MapsComponent mapsComponent = DaggerMapsComponent.create();
+//        mapsComponent.inject(this);
 
+        testResults = new ArrayList<>();
+        mapsAdapter = new MapsAdapter(testResults);
+        mapsRecycler = rootView.findViewById(R.id.maps_recycler);
+        linearLayoutManager = new LinearLayoutManager(getActivity());
+        mapsRecycler.setLayoutManager(linearLayoutManager);
+        mapsRecycler.setAdapter(mapsAdapter);
         Button collectionsButton = rootView.findViewById(R.id.button_maps);
         collectionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +66,7 @@ public class MapsFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            testResults.clear();
             progressBarMaps.setVisibility(View.VISIBLE);
             mapsRecycler.setVisibility(View.INVISIBLE);
         }
@@ -64,7 +79,7 @@ public class MapsFragment extends Fragment {
         @Override
         protected ArrayList<MapsTestResult> doInBackground(ArrayList<MapsTestResult>... arrayLists) {
             try {
-                return new CalculateMaps(100000,1000000).getListResultMap();
+                return new CalculateMaps(10,100, testResults).getListResultMap();
             }catch (Exception e) {
                 e.printStackTrace();
                 return null;
@@ -76,11 +91,7 @@ public class MapsFragment extends Fragment {
             super.onPostExecute(resultList);
             progressBarMaps.setVisibility(View.GONE);
             mapsRecycler.setVisibility(View.VISIBLE);
-            mapsAdapter = new MapsAdapter(resultList);
-            mapsRecycler.setAdapter(mapsAdapter);
-            LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-            mapsRecycler.setLayoutManager(layoutManager);
-            mapsAdapter.notifyDataSetChanged();
+            mapsAdapter.setItems(resultList);
         }
     }
 }
