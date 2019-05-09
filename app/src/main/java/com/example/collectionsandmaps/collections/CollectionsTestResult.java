@@ -1,4 +1,6 @@
-package com.example.collectionsandmaps;
+package com.example.collectionsandmaps.collections;
+
+import dagger.Module;
 
 public class CollectionsTestResult {
     String nameTest;

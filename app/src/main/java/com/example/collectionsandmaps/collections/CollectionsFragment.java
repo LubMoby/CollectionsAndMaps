@@ -1,16 +1,17 @@
-package com.example.collectionsandmaps;
+package com.example.collectionsandmaps.collections;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
+
+import com.example.collectionsandmaps.R;
 
 import java.util.ArrayList;
 
@@ -20,16 +21,23 @@ import butterknife.Unbinder;
 
 public class CollectionsFragment extends Fragment{
     private RecyclerView collectionRecycler;
-    private CollectionsAdapter adapterCollections;
     private Unbinder unbinder;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
+    private ArrayList<CollectionsTestResult> testResults;
+
+    CollectionsAdapter adapterCollections;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_collection,container,false);
         unbinder = ButterKnife.bind(this, rootView);
+        testResults = new ArrayList<>();
+        adapterCollections = new CollectionsAdapter(testResults);
         collectionRecycler = rootView.findViewById(R.id.collection_recycler);
+        collectionRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+        collectionRecycler.setAdapter(adapterCollections);
+
 
         Button collectionsButton = rootView.findViewById(R.id.button_collections);
         collectionsButton.setOnClickListener(new View.OnClickListener() {
@@ -54,6 +62,7 @@ public class CollectionsFragment extends Fragment{
             super.onPreExecute();
             progressBar.setVisibility(View.VISIBLE);
             collectionRecycler.setVisibility(View.INVISIBLE);
+            testResults.clear();
         }
 
         @Override
@@ -64,7 +73,7 @@ public class CollectionsFragment extends Fragment{
         @Override
         protected ArrayList<CollectionsTestResult> doInBackground(ArrayList<CollectionsTestResult>... arrayLists) {
             try {
-                return new CalculateCollections(10000,100000).getListResultCollections();
+                return new CalculateCollections(10,100, testResults).getListResultCollections();
             }catch (Exception e) {
                 e.printStackTrace();
                 return null;
@@ -76,11 +85,7 @@ public class CollectionsFragment extends Fragment{
             super.onPostExecute(resultList);
             progressBar.setVisibility(View.GONE);
             collectionRecycler.setVisibility(View.VISIBLE);
-            adapterCollections = new CollectionsAdapter(resultList);
-            collectionRecycler.setAdapter(adapterCollections);
-            LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-            collectionRecycler.setLayoutManager(layoutManager);
-            adapterCollections.notifyDataSetChanged();
+            adapterCollections.setItems(resultList);
         }
     }
 }

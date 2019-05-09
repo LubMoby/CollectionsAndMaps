@@ -1,4 +1,4 @@
-package com.example.collectionsandmaps;
+package com.example.collectionsandmaps.maps;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,17 +15,17 @@ public class CalculateMaps {
     private HashMap<Integer,Integer> hashMap;
     private ArrayList<MapsTestResult> list;
 
-    public CalculateMaps(int sizeStart, int sizeEnd) {
+    CalculateMaps(int sizeStart, int sizeEnd, ArrayList<MapsTestResult> list) {
         this.sizeStart = sizeStart;
         this.sizeEnd = sizeEnd;
-        treeMap = new TreeMap<Integer,Integer>();
-        hashMap = new HashMap<Integer,Integer>();
+        this.treeMap = new TreeMap<>();
+        this.hashMap = new HashMap<>();
+        this.list = list;
         init(treeMap);
         init(hashMap);
-        list = new ArrayList<>();
     }
 
-    private void init (Map<Integer,Integer> map){
+    public void init (Map<Integer,Integer> map){
         for (int i = 0; i < sizeEnd-sizeStart ; i++) {
             map.put(i, sizeStart+i);
         }
@@ -58,7 +58,7 @@ public class CalculateMaps {
         return stopTime - startTime;
     }
 
-    private void colculateMaps(Integer keySearch,Integer keyRemoving){
+    private void colculateMaps(Integer keySearch, Integer keyRemoving){
         long timeForTreeMap;
         long timeForHashMap;
 
@@ -75,7 +75,7 @@ public class CalculateMaps {
         addToListTestResult(list,"Removing", timeForTreeMap, timeForHashMap);
     }
 
-    private static void addToListTestResult(List<MapsTestResult> list, String nameTest, long timeTreeMap, long timeHashMap){
+    private void addToListTestResult(List<MapsTestResult> list, String nameTest, long timeTreeMap, long timeHashMap){
         MapsTestResult testResultMap = new MapsTestResult(nameTest, timeTreeMap, timeHashMap);
         list.add(testResultMap);
     }

@@ -1,4 +1,4 @@
-package com.example.collectionsandmaps;
+package com.example.collectionsandmaps.collections;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -15,13 +15,13 @@ public class CalculateCollections {
     private CopyOnWriteArrayList<Integer> copyOnWriteArrayList;
     private ArrayList<CollectionsTestResult> listResultCollections;
 
-    CalculateCollections(int sizeStart, int sizeEnd){
+    CalculateCollections(int sizeStart, int sizeEnd, ArrayList<CollectionsTestResult> listResultCollections){
         this.sizeStart = sizeStart;
         this.sizeEnd = sizeEnd;
         this.arrayList = new ArrayList<>();
         this.linkedList = new LinkedList<>();
         this.copyOnWriteArrayList = new CopyOnWriteArrayList<>();
-        this.listResultCollections = new ArrayList<>();
+        this.listResultCollections = listResultCollections;
 
         init(arrayList);
         init(linkedList);

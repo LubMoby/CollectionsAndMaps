@@ -1,4 +1,4 @@
-package com.example.collectionsandmaps;
+package com.example.collectionsandmaps.maps;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
@@ -7,7 +7,11 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.collectionsandmaps.R;
+
 import java.util.ArrayList;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,9 +32,16 @@ public class MapsAdapter extends RecyclerView.Adapter<MapsAdapter.ViewHolder> {
         }
     }
 
-    MapsAdapter(ArrayList<MapsTestResult> mapsList) {
+    @Inject
+    public MapsAdapter(ArrayList<MapsTestResult> mapsList) {
         this.mapsList = mapsList;
     }
+
+    public void setItems(ArrayList<MapsTestResult> mapsList) {
+        this.mapsList = mapsList;
+        notifyDataSetChanged();
+    }
+
 
     @Override
     public int getItemCount() {

@@ -1,13 +1,20 @@
 package com.example.collectionsandmaps;
 
+import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
-import android.support.design.widget.TabLayout;
+
+import com.example.collectionsandmaps.collections.CollectionsFragment;
+import com.example.collectionsandmaps.dagger.DaggerMapsComponent;
+import com.example.collectionsandmaps.dagger.MapsComponent;
+import com.example.collectionsandmaps.maps.MapsFragment;
+
+import javax.inject.Inject;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -25,6 +32,9 @@ public class MainActivity extends FragmentActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        MapsComponent mapsComponent = DaggerMapsComponent.create();
+        mapsComponent.inject(this);
 
         pagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(pagerAdapter);
