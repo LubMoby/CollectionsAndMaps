@@ -14,31 +14,35 @@ import android.widget.ProgressBar;
 import com.example.collectionsandmaps.R;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 public class CollectionsFragment extends Fragment{
-    private RecyclerView collectionRecycler;
-    private Unbinder unbinder;
-    @BindView(R.id.progress_bar) ProgressBar progressBar;
-    private ArrayList<CollectionsTestResult> testResults;
 
-    CollectionsAdapter adapterCollections;
+    @Inject
+    @Named("testResultCollections")
+    ArrayList<LinkedHashMap<String, Long[]>> testResultCollections;
+
+    @Inject ArrayList<Integer> arrayList;
+    @Inject LinkedList<Integer> linkedList;
+    @Inject CopyOnWriteArrayList<Integer> copyOnWriteArrayList;
+    @Inject CollectionsAdapter adapterCollections;
+    @Inject CalculateCollections calculateCollections;
+
+    private RecyclerView collectionRecycler;
+    private ProgressBar progressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_collection,container,false);
-        unbinder = ButterKnife.bind(this, rootView);
-        testResults = new ArrayList<>();
-        adapterCollections = new CollectionsAdapter(testResults);
         collectionRecycler = rootView.findViewById(R.id.collection_recycler);
         collectionRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         collectionRecycler.setAdapter(adapterCollections);
-
-
         Button collectionsButton = rootView.findViewById(R.id.button_collections);
         collectionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,23 +50,22 @@ public class CollectionsFragment extends Fragment{
                 new CalculateResultTest().execute();
             }
         });
+        progressBar = rootView.findViewById(R.id.progress_bar);
         return rootView;
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
     }
 
-    private class CalculateResultTest extends AsyncTask<ArrayList<CollectionsTestResult>,Void,ArrayList<CollectionsTestResult>>{
+    private class CalculateResultTest extends AsyncTask<ArrayList<LinkedHashMap<String, Long[]>>, Void, ArrayList<LinkedHashMap<String, Long[]>>>{
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             progressBar.setVisibility(View.VISIBLE);
             collectionRecycler.setVisibility(View.INVISIBLE);
-            testResults.clear();
         }
 
         @Override
@@ -71,9 +74,9 @@ public class CollectionsFragment extends Fragment{
          }
 
         @Override
-        protected ArrayList<CollectionsTestResult> doInBackground(ArrayList<CollectionsTestResult>... arrayLists) {
+        protected ArrayList<LinkedHashMap<String, Long[]>> doInBackground(ArrayList<LinkedHashMap<String, Long[]>>... arrayLists) {
             try {
-                return new CalculateCollections(10,100, testResults).getListResultCollections();
+                return calculateCollections.calculateCollectionsResult();
             }catch (Exception e) {
                 e.printStackTrace();
                 return null;
@@ -81,7 +84,7 @@ public class CollectionsFragment extends Fragment{
         }
 
         @Override
-        protected void onPostExecute(ArrayList<CollectionsTestResult> resultList){
+        protected void onPostExecute(ArrayList<LinkedHashMap<String, Long[]>> resultList){
             super.onPostExecute(resultList);
             progressBar.setVisibility(View.GONE);
             collectionRecycler.setVisibility(View.VISIBLE);
