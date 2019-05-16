@@ -20,7 +20,7 @@
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:shadowColor="@color/colorPrimary"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
         <TextView
             android:id="@+id/info_array_list"

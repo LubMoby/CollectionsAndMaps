@@ -10,8 +10,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import com.example.collectionsandmaps.collections.CollectionsFragment;
-import com.example.collectionsandmaps.dagger.DaggerMapsComponent;
-import com.example.collectionsandmaps.dagger.MapsComponent;
+import com.example.collectionsandmaps.dagger.DaggerCollectionsAndMapsComponent;
+import com.example.collectionsandmaps.dagger.CollectionsAndMapsComponent;
 import com.example.collectionsandmaps.maps.MapsFragment;
 
 import javax.inject.Inject;
@@ -27,19 +27,29 @@ public class MainActivity extends FragmentActivity{
     @BindString(R.string.collections_tab) String tabCollections;
     @BindString(R.string.maps_tab) String tabMaps;
 
+    @Inject
+    MapsFragment MapsFragment;
+
+    @Inject
+    CollectionsFragment CollectionsFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        MapsComponent mapsComponent = DaggerMapsComponent.create();
-        mapsComponent.inject(this);
+        CollectionsAndMapsComponent collectionsAndMapsComponent = DaggerCollectionsAndMapsComponent.create();
+        collectionsAndMapsComponent.inject(this);
+        collectionsAndMapsComponent.inject(MapsFragment);
+        collectionsAndMapsComponent.inject(CollectionsFragment);
+
 
         pagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(pagerAdapter);
 
         tabLayout.setupWithViewPager(pager);
+
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
@@ -61,8 +71,8 @@ public class MainActivity extends FragmentActivity{
         @Override
         public Fragment getItem(int position) {
             switch (position){
-                case 0:return new CollectionsFragment();
-                case 1:return new MapsFragment();
+                case 0:return CollectionsFragment;
+                case 1:return MapsFragment;
             }
             return null;
         }

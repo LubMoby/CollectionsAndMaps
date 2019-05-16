@@ -14,36 +14,33 @@ import android.widget.ProgressBar;
 import com.example.collectionsandmaps.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.TreeMap;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 public class MapsFragment extends Fragment {
+
+    @Inject
+    @Named("testResultMaps")
+    ArrayList<LinkedHashMap<String, Long[]>> testResultMaps;
+
+    @Inject TreeMap<Integer,Integer> treeMap;
+    @Inject HashMap<Integer,Integer> hashMap;
+    @Inject CalculateMaps calculateMaps;
+    @Inject MapsAdapter mapsAdapter;
+
     private RecyclerView mapsRecycler;
-    private Unbinder unbinder;
-    @BindView(R.id.progress_bar_maps)
-    ProgressBar progressBarMaps;
-
-    private ArrayList<MapsTestResult> testResults;
-
-    private MapsAdapter mapsAdapter;
-
-    private LinearLayoutManager linearLayoutManager;
+    private ProgressBar progressBarMaps;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_map,container,false);
-        unbinder = ButterKnife.bind(this, rootView);
-//        MapsComponent mapsComponent = DaggerMapsComponent.create();
-//        mapsComponent.inject(this);
-
-        testResults = new ArrayList<>();
-        mapsAdapter = new MapsAdapter(testResults);
         mapsRecycler = rootView.findViewById(R.id.maps_recycler);
-        linearLayoutManager = new LinearLayoutManager(getActivity());
-        mapsRecycler.setLayoutManager(linearLayoutManager);
+        mapsRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         mapsRecycler.setAdapter(mapsAdapter);
         Button collectionsButton = rootView.findViewById(R.id.button_maps);
         collectionsButton.setOnClickListener(new View.OnClickListener() {
@@ -52,21 +49,21 @@ public class MapsFragment extends Fragment {
                 new CalculateMapsResultTest().execute();
             }
         });
+        progressBarMaps = rootView.findViewById(R.id.progress_bar_maps);
+
         return rootView;
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
     }
 
-    private class CalculateMapsResultTest extends AsyncTask<ArrayList<MapsTestResult>,Void,ArrayList<MapsTestResult>> {
+    private class CalculateMapsResultTest extends AsyncTask<ArrayList<LinkedHashMap<String, Long[]>>,Void,ArrayList<LinkedHashMap<String, Long[]>>> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            testResults.clear();
             progressBarMaps.setVisibility(View.VISIBLE);
             mapsRecycler.setVisibility(View.INVISIBLE);
         }
@@ -77,9 +74,9 @@ public class MapsFragment extends Fragment {
         }
 
         @Override
-        protected ArrayList<MapsTestResult> doInBackground(ArrayList<MapsTestResult>... arrayLists) {
+        protected ArrayList<LinkedHashMap<String, Long[]>> doInBackground(ArrayList<LinkedHashMap<String, Long[]>>... arrayLists) {
             try {
-                return new CalculateMaps(10,100, testResults).getListResultMap();
+                return calculateMaps.calculateMapsReault();
             }catch (Exception e) {
                 e.printStackTrace();
                 return null;
@@ -87,7 +84,7 @@ public class MapsFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(ArrayList<MapsTestResult> resultList){
+        protected void onPostExecute(ArrayList<LinkedHashMap<String, Long[]>> resultList){
             super.onPostExecute(resultList);
             progressBarMaps.setVisibility(View.GONE);
             mapsRecycler.setVisibility(View.VISIBLE);
