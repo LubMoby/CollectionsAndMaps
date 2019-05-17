@@ -1,5 +1,4 @@
-package com.example.collectionsandmaps.collections;
-
+package com.example.collectionsandmaps.main.collections;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;

@@ -1,4 +1,4 @@
-package com.example.collectionsandmaps.maps;
+package com.example.collectionsandmaps.main.maps;
 
 import java.util.ArrayList;
 import java.util.HashMap;

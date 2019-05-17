@@ -1,8 +1,7 @@
-package com.example.collectionsandmaps.maps;
+package com.example.collectionsandmaps.main.maps;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +13,7 @@ import android.widget.ProgressBar;
 import com.example.collectionsandmaps.R;
 
 import java.util.ArrayList;
+<<<<<<< HEAD:app/src/main/java/com/example/collectionsandmaps/maps/MapsFragment.java
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.TreeMap;
@@ -31,6 +31,20 @@ public class MapsFragment extends Fragment {
     @Inject HashMap<Integer,Integer> hashMap;
     @Inject CalculateMaps calculateMaps;
     @Inject MapsAdapter mapsAdapter;
+=======
+import java.util.LinkedHashMap;
+
+import javax.inject.Inject;
+
+import dagger.android.support.DaggerFragment;
+
+public class MapsFragment extends DaggerFragment {
+
+    @Inject
+    CalculateMaps calculateMaps;
+    @Inject
+    MapsAdapter mapsAdapter;
+>>>>>>> Dagger-android. Программа компилируется, но возращает фрагменты Null.:app/src/main/java/com/example/collectionsandmaps/main/maps/MapsFragment.java
 
     private RecyclerView mapsRecycler;
     private ProgressBar progressBarMaps;

@@ -1,4 +1,4 @@
-package com.example.collectionsandmaps.collections;
+package com.example.collectionsandmaps.main.collections;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
@@ -17,7 +17,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class CollectionsAdapter extends RecyclerView.Adapter<CollectionsAdapter.ViewHolder> {
+<<<<<<< HEAD:app/src/main/java/com/example/collectionsandmaps/collections/CollectionsAdapter.java
     private ArrayList<LinkedHashMap<String, Long[]>> collectionsList;
+=======
+    private ArrayList<LinkedHashMap<String, Long[]>> collectionsList = new ArrayList<>();
+>>>>>>> Dagger-android. Программа компилируется, но возращает фрагменты Null.:app/src/main/java/com/example/collectionsandmaps/main/collections/CollectionsAdapter.java
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private CardView cardView;
@@ -33,10 +37,13 @@ public class CollectionsAdapter extends RecyclerView.Adapter<CollectionsAdapter.
         }
     }
 
+<<<<<<< HEAD:app/src/main/java/com/example/collectionsandmaps/collections/CollectionsAdapter.java
     public CollectionsAdapter(ArrayList<LinkedHashMap<String, Long[]>> collectionsList) {
         this.collectionsList = collectionsList;
     }
 
+=======
+>>>>>>> Dagger-android. Программа компилируется, но возращает фрагменты Null.:app/src/main/java/com/example/collectionsandmaps/main/collections/CollectionsAdapter.java
     @Override
     public int getItemCount() {
         return collectionsList.size();

@@ -1,8 +1,7 @@
-package com.example.collectionsandmaps.collections;
+package com.example.collectionsandmaps.main.collections;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,6 +14,7 @@ import com.example.collectionsandmaps.R;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+<<<<<<< HEAD:app/src/main/java/com/example/collectionsandmaps/collections/CollectionsFragment.java
 import java.util.LinkedList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -32,6 +32,19 @@ public class CollectionsFragment extends Fragment{
     @Inject CopyOnWriteArrayList<Integer> copyOnWriteArrayList;
     @Inject CollectionsAdapter adapterCollections;
     @Inject CalculateCollections calculateCollections;
+=======
+
+import javax.inject.Inject;
+
+import dagger.android.support.DaggerFragment;
+
+public class CollectionsFragment extends DaggerFragment{
+
+    @Inject
+    CollectionsAdapter adapterCollections;
+    @Inject
+    CalculateCollections calculateCollections;
+>>>>>>> Dagger-android. Программа компилируется, но возращает фрагменты Null.:app/src/main/java/com/example/collectionsandmaps/main/collections/CollectionsFragment.java
 
     private RecyclerView collectionRecycler;
     private ProgressBar progressBar;
@@ -71,7 +84,7 @@ public class CollectionsFragment extends Fragment{
         @Override
         protected void onProgressUpdate(Void... values) {
             super.onProgressUpdate(values);
-         }
+        }
 
         @Override
         protected ArrayList<LinkedHashMap<String, Long[]>> doInBackground(ArrayList<LinkedHashMap<String, Long[]>>... arrayLists) {
