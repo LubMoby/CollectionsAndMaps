@@ -2,24 +2,30 @@ package com.example.collectionsandmaps.main.maps;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 import static java.lang.System.currentTimeMillis;
 
 public class CalculateMaps {
+    private int sizeStart;
+    private int sizeEnd;
     private TreeMap<Integer,Integer> treeMap;
     private HashMap<Integer,Integer> hashMap;
+    private ArrayList<MapsTestResult> list;
 
-    public CalculateMaps(TreeMap<Integer, Integer> treeMap, HashMap<Integer, Integer> hashMap) {
-        this.treeMap = treeMap;
-        this.hashMap = hashMap;
+    CalculateMaps(int sizeStart, int sizeEnd, ArrayList<MapsTestResult> list) {
+        this.sizeStart = sizeStart;
+        this.sizeEnd = sizeEnd;
+        this.treeMap = new TreeMap<>();
+        this.hashMap = new HashMap<>();
+        this.list = list;
+        init(treeMap);
+        init(hashMap);
     }
 
-    private void init (Map<Integer,Integer> map){
-        int sizeStart = 10;
-        int sizeEnd = 100;
+    public void init (Map<Integer,Integer> map){
         for (int i = 0; i < sizeEnd-sizeStart ; i++) {
             map.put(i, sizeStart+i);
         }
@@ -52,34 +58,33 @@ public class CalculateMaps {
         return stopTime - startTime;
     }
 
-    public ArrayList<LinkedHashMap<String, Long[]>> calculateMapsReault(){
+    private void colculateMaps(Integer keySearch, Integer keyRemoving){
         long timeForTreeMap;
         long timeForHashMap;
-        Integer keySearch = (int)treeMap.size()/2;
-        Integer keyRemoving = (int)treeMap.size()/3;
-        ArrayList<LinkedHashMap<String, Long[]>> listMapsResult = new ArrayList<>();
-
-        init(treeMap);
-        init(hashMap);
 
         timeForTreeMap = addNew(treeMap);
         timeForHashMap = addNew(hashMap);
-        addToListTestResult(listMapsResult,"Adding new", timeForTreeMap, timeForHashMap);
+        addToListTestResult(list,"Adding new", timeForTreeMap, timeForHashMap);
 
         timeForTreeMap = searchByKey(treeMap,keySearch);
         timeForHashMap = searchByKey(hashMap,keySearch);
-        addToListTestResult(listMapsResult,"Search by key", timeForTreeMap, timeForHashMap);
+        addToListTestResult(list,"Search by key", timeForTreeMap, timeForHashMap);
 
         timeForTreeMap = removingByKey(treeMap,keyRemoving);
         timeForHashMap = removingByKey(hashMap,keyRemoving);
-        addToListTestResult(listMapsResult,"Removing", timeForTreeMap, timeForHashMap);
-
-        return listMapsResult;
+        addToListTestResult(list,"Removing", timeForTreeMap, timeForHashMap);
     }
 
-    private void addToListTestResult(ArrayList<LinkedHashMap<String, Long[]>> list, String nameTest, long timeTreeMap, long timeHashMap){
-        LinkedHashMap<String, Long[]> result = new LinkedHashMap<>();
-        result.put(nameTest, new Long[]{timeTreeMap,timeHashMap});
-        list.add(result);
+    private void addToListTestResult(List<MapsTestResult> list, String nameTest, long timeTreeMap, long timeHashMap){
+        MapsTestResult testResultMap = new MapsTestResult(nameTest, timeTreeMap, timeHashMap);
+        list.add(testResultMap);
+    }
+
+    public ArrayList<MapsTestResult> getListResultMap(){
+        Integer keySearch = (int)treeMap.size()/2;
+        Integer keyRemoving = (int)treeMap.size()/3;
+
+        colculateMaps(keySearch,keyRemoving);
+        return list;
     }
 }

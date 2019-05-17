@@ -6,11 +6,4 @@
 
     <string name="button_collections">calculate collections</string>
     <string name="button_maps">calculate maps</string>
-    <string name="maps_test">Tests for maps</string>
-    <string name="treemap">TreeMap</string>
-    <string name="hashmap">HashMap</string>
-    <string name="tests_for_collections">Tests for collections</string>
-    <string name="arraylist">ArrayList</string>
-    <string name="linkedlist">LinkedList</string>
-    <string name="copyonwritearraylist">CopyOnWriteArrayList</string>
 </resources>
