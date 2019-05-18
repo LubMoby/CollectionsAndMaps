@@ -13,25 +13,6 @@ import android.widget.ProgressBar;
 import com.example.collectionsandmaps.R;
 
 import java.util.ArrayList;
-<<<<<<< HEAD:app/src/main/java/com/example/collectionsandmaps/maps/MapsFragment.java
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.TreeMap;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-
-public class MapsFragment extends Fragment {
-
-    @Inject
-    @Named("testResultMaps")
-    ArrayList<LinkedHashMap<String, Long[]>> testResultMaps;
-
-    @Inject TreeMap<Integer,Integer> treeMap;
-    @Inject HashMap<Integer,Integer> hashMap;
-    @Inject CalculateMaps calculateMaps;
-    @Inject MapsAdapter mapsAdapter;
-=======
 import java.util.LinkedHashMap;
 
 import javax.inject.Inject;
@@ -44,7 +25,6 @@ public class MapsFragment extends DaggerFragment {
     CalculateMaps calculateMaps;
     @Inject
     MapsAdapter mapsAdapter;
->>>>>>> Dagger-android. Программа компилируется, но возращает фрагменты Null.:app/src/main/java/com/example/collectionsandmaps/main/maps/MapsFragment.java
 
     private RecyclerView mapsRecycler;
     private ProgressBar progressBarMaps;

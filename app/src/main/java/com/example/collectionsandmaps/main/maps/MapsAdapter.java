@@ -17,11 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MapsAdapter extends RecyclerView.Adapter<MapsAdapter.ViewHolder> {
-<<<<<<< HEAD:app/src/main/java/com/example/collectionsandmaps/maps/MapsAdapter.java
-    private ArrayList<LinkedHashMap<String, Long[]>> mapsList;
-=======
     private ArrayList<LinkedHashMap<String, Long[]>> mapsList = new ArrayList<>();
->>>>>>> Dagger-android. Программа компилируется, но возращает фрагменты Null.:app/src/main/java/com/example/collectionsandmaps/main/maps/MapsAdapter.java
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private CardView cardView;
@@ -36,13 +32,6 @@ public class MapsAdapter extends RecyclerView.Adapter<MapsAdapter.ViewHolder> {
         }
     }
 
-<<<<<<< HEAD:app/src/main/java/com/example/collectionsandmaps/maps/MapsAdapter.java
-    public MapsAdapter(ArrayList<LinkedHashMap<String, Long[]>> mapsList) {
-        this.mapsList = mapsList;
-    }
-
-=======
->>>>>>> Dagger-android. Программа компилируется, но возращает фрагменты Null.:app/src/main/java/com/example/collectionsandmaps/main/maps/MapsAdapter.java
     public void setItems(ArrayList<LinkedHashMap<String, Long[]>> mapsList) {
         this.mapsList = mapsList;
         notifyDataSetChanged();

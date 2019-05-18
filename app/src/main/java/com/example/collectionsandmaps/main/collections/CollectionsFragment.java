@@ -14,25 +14,6 @@ import com.example.collectionsandmaps.R;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-<<<<<<< HEAD:app/src/main/java/com/example/collectionsandmaps/collections/CollectionsFragment.java
-import java.util.LinkedList;
-import java.util.concurrent.CopyOnWriteArrayList;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-
-public class CollectionsFragment extends Fragment{
-
-    @Inject
-    @Named("testResultCollections")
-    ArrayList<LinkedHashMap<String, Long[]>> testResultCollections;
-
-    @Inject ArrayList<Integer> arrayList;
-    @Inject LinkedList<Integer> linkedList;
-    @Inject CopyOnWriteArrayList<Integer> copyOnWriteArrayList;
-    @Inject CollectionsAdapter adapterCollections;
-    @Inject CalculateCollections calculateCollections;
-=======
 
 import javax.inject.Inject;
 
@@ -44,8 +25,6 @@ public class CollectionsFragment extends DaggerFragment{
     CollectionsAdapter adapterCollections;
     @Inject
     CalculateCollections calculateCollections;
->>>>>>> Dagger-android. Программа компилируется, но возращает фрагменты Null.:app/src/main/java/com/example/collectionsandmaps/main/collections/CollectionsFragment.java
-
     private RecyclerView collectionRecycler;
     private ProgressBar progressBar;
 
