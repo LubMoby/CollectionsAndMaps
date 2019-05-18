@@ -12,6 +12,8 @@ import android.widget.ProgressBar;
 
 import com.example.collectionsandmaps.R;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
@@ -30,7 +32,7 @@ public class MapsFragment extends DaggerFragment {
     private ProgressBar progressBarMaps;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_map,container,false);
         mapsRecycler = rootView.findViewById(R.id.maps_recycler);
