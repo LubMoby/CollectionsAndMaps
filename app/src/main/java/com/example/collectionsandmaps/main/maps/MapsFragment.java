@@ -15,7 +15,6 @@ import com.example.collectionsandmaps.R;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 
 import javax.inject.Inject;
 
@@ -55,7 +54,7 @@ public class MapsFragment extends DaggerFragment {
         super.onDestroyView();
     }
 
-    private class CalculateMapsResultTest extends AsyncTask<ArrayList<LinkedHashMap<String, Long[]>>,Void,ArrayList<LinkedHashMap<String, Long[]>>> {
+    private class CalculateMapsResultTest extends AsyncTask<ArrayList<MapsResult>,Void,ArrayList<MapsResult>> {
 
         @Override
         protected void onPreExecute() {
@@ -70,7 +69,7 @@ public class MapsFragment extends DaggerFragment {
         }
 
         @Override
-        protected ArrayList<LinkedHashMap<String, Long[]>> doInBackground(ArrayList<LinkedHashMap<String, Long[]>>... arrayLists) {
+        protected ArrayList<MapsResult> doInBackground(ArrayList<MapsResult>... arrayLists) {
             try {
                 return calculateMaps.calculateMapsReault();
             }catch (Exception e) {
@@ -80,7 +79,7 @@ public class MapsFragment extends DaggerFragment {
         }
 
         @Override
-        protected void onPostExecute(ArrayList<LinkedHashMap<String, Long[]>> resultList){
+        protected void onPostExecute(ArrayList<MapsResult> resultList){
             super.onPostExecute(resultList);
             progressBarMaps.setVisibility(View.GONE);
             mapsRecycler.setVisibility(View.VISIBLE);

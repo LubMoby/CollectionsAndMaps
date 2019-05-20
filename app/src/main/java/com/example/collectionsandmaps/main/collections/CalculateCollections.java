@@ -1,6 +1,6 @@
 package com.example.collectionsandmaps.main.collections;
+
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -19,20 +19,20 @@ public class CalculateCollections {
     }
 
     private void init (List list){
-        int sizeStart = 10;
-        int sizeEnd = 100;
+        int sizeStart = 1000;
+        int sizeEnd = 100000;
         for (int i = 0; i < sizeEnd - sizeStart; i++) {
             list.add(sizeStart+i);
         }
     }
 
-    public ArrayList<LinkedHashMap<String, Long[]>> calculateCollectionsResult() {
+    public ArrayList<CollectionsResult> calculateCollectionsResult() {
         long timeForArrayList;
         long timeForLinkedList;
         long timeForCopyOnWriteArrayList;
         String nameTest = "";
         int element = 55;
-        ArrayList<LinkedHashMap<String, Long[]>> listResultCollections = new ArrayList<>();
+        ArrayList<CollectionsResult> listResultCollections = new ArrayList<>();
 
         init(arrayList);
         init(linkedList);
@@ -85,10 +85,9 @@ public class CalculateCollections {
 
     }
 
-    private void addToListTestResult(ArrayList<LinkedHashMap<String, Long[]>> listResultCollections, String nameTest,long timeForArrayList, long timeForLinkedList, long timeForCopyOnWriteArrayList ){
-        LinkedHashMap<String, Long[]> result = new LinkedHashMap<>();
-        result.put(nameTest, new Long[]{timeForArrayList,timeForLinkedList,timeForCopyOnWriteArrayList});
-        listResultCollections.add(result);
+    private void addToListTestResult(ArrayList<CollectionsResult> listResultCollections, String nameTest,long timeForArrayList, long timeForLinkedList, long timeForCopyOnWriteArrayList ){
+        CollectionsResult testResult = new CollectionsResult(nameTest, timeForArrayList, timeForLinkedList, timeForCopyOnWriteArrayList);
+        listResultCollections.add(testResult);
     }
 
     private long addFirst (List list, int elementInt){

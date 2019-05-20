@@ -1,6 +1,5 @@
 package com.example.collectionsandmaps.main.collections;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,11 +14,17 @@ import com.example.collectionsandmaps.R;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class CollectionsFragment extends DaggerFragment{
 
@@ -30,6 +35,8 @@ public class CollectionsFragment extends DaggerFragment{
 
     private RecyclerView collectionRecycler;
     private ProgressBar progressBar;
+    private Button mCollectionsButton;
+    CompositeDisposable mDisposables = new CompositeDisposable();
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
@@ -38,13 +45,14 @@ public class CollectionsFragment extends DaggerFragment{
         collectionRecycler = rootView.findViewById(R.id.collection_recycler);
         collectionRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         collectionRecycler.setAdapter(adapterCollections);
-        Button collectionsButton = rootView.findViewById(R.id.button_collections);
-        collectionsButton.setOnClickListener(new View.OnClickListener() {
+        mCollectionsButton = rootView.findViewById(R.id.button_collections);
+        mCollectionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new CalculateResultTest().execute();
+                CalculateResultTest();
             }
         });
+
         progressBar = rootView.findViewById(R.id.progress_bar);
         return rootView;
     }
@@ -52,39 +60,47 @@ public class CollectionsFragment extends DaggerFragment{
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        mDisposables.clear();
     }
 
-    private class CalculateResultTest extends AsyncTask<ArrayList<LinkedHashMap<String, Long[]>>, Void, ArrayList<LinkedHashMap<String, Long[]>>>{
+    private void CalculateResultTest(){
+        Observable<ArrayList<CollectionsResult>> callable = Observable
+                .fromCallable(new Callable<ArrayList<CollectionsResult>>() {
+                    @Override
+                    public ArrayList<CollectionsResult> call() throws Exception {
+                        return calculateCollections.calculateCollectionsResult();
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressBar.setVisibility(View.VISIBLE);
-            collectionRecycler.setVisibility(View.INVISIBLE);
-        }
-
-        @Override
-        protected void onProgressUpdate(Void... values) {
-            super.onProgressUpdate(values);
-        }
-
-        @Override
-        protected ArrayList<LinkedHashMap<String, Long[]>> doInBackground(ArrayList<LinkedHashMap<String, Long[]>>... arrayLists) {
-            try {
-                return calculateCollections.calculateCollectionsResult();
-            }catch (Exception e) {
-                e.printStackTrace();
-                return null;
+        callable.subscribe(new Observer<ArrayList<CollectionsResult>>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                mDisposables.add(d);
+                progressBar.setVisibility(View.VISIBLE);
+                collectionRecycler.setVisibility(View.INVISIBLE);
             }
-        }
 
-        @Override
-        protected void onPostExecute(ArrayList<LinkedHashMap<String, Long[]>> resultList){
-            super.onPostExecute(resultList);
-            progressBar.setVisibility(View.GONE);
-            collectionRecycler.setVisibility(View.VISIBLE);
-            adapterCollections.setItems(resultList);
-        }
+            @Override
+            public void onNext(ArrayList<CollectionsResult> collectionsResults) {
+                progressBar.setVisibility(View.GONE);
+                collectionRecycler.setVisibility(View.VISIBLE);
+                adapterCollections.setItems(collectionsResults);
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+
     }
 }
 

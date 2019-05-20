@@ -10,14 +10,12 @@ import android.widget.TextView;
 import com.example.collectionsandmaps.R;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class CollectionsAdapter extends RecyclerView.Adapter<CollectionsAdapter.ViewHolder> {
-    private ArrayList<LinkedHashMap<String, Long[]>> collectionsList = new ArrayList<>();
+    private ArrayList<CollectionsResult> collectionsResultList = new ArrayList<>();
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private CardView cardView;
@@ -35,11 +33,11 @@ public class CollectionsAdapter extends RecyclerView.Adapter<CollectionsAdapter.
 
     @Override
     public int getItemCount() {
-        return collectionsList.size();
+        return collectionsResultList.size();
     }
 
-    public void setItems(ArrayList<LinkedHashMap<String, Long[]>> collectionsList) {
-        this.collectionsList = collectionsList;
+    public void setItems(ArrayList<CollectionsResult> collectionsList) {
+        this.collectionsResultList = collectionsList;
         notifyDataSetChanged();
     }
 
@@ -52,14 +50,9 @@ public class CollectionsAdapter extends RecyclerView.Adapter<CollectionsAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        LinkedHashMap<String, Long[]> linkedHashMap = collectionsList.get(i);
-        Set<String> keySet = linkedHashMap.keySet();
-        String key = "";
-        for (String k:keySet) {key = k;}
-        Long[] valuesResult = linkedHashMap.get(key);
-        viewHolder.name_test.setText(key.toString());
-        viewHolder.array_list_test.setText(valuesResult[0].toString());
-        viewHolder.linked_list_test.setText(valuesResult[1].toString());
-        viewHolder.copyonwrite_list_test.setText(valuesResult[2].toString());
+        viewHolder.name_test.setText(collectionsResultList.get(i).nameTest);
+        viewHolder.array_list_test.setText(Long.toString(collectionsResultList.get(i).timeForArrayList));
+        viewHolder.linked_list_test.setText(Long.toString(collectionsResultList.get(i).timeForLinkedList));
+        viewHolder.copyonwrite_list_test.setText(Long.toString(collectionsResultList.get(i).timeForCopyOnWriteArrayList));
     }
 }

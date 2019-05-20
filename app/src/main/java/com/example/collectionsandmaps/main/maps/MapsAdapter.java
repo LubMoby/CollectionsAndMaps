@@ -10,14 +10,12 @@ import android.widget.TextView;
 import com.example.collectionsandmaps.R;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MapsAdapter extends RecyclerView.Adapter<MapsAdapter.ViewHolder> {
-    private ArrayList<LinkedHashMap<String, Long[]>> mapsList = new ArrayList<>();
+    private ArrayList<MapsResult> mapsList = new ArrayList<>();
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private CardView cardView;
@@ -32,7 +30,7 @@ public class MapsAdapter extends RecyclerView.Adapter<MapsAdapter.ViewHolder> {
         }
     }
 
-    public void setItems(ArrayList<LinkedHashMap<String, Long[]>> mapsList) {
+    public void setItems(ArrayList<MapsResult> mapsList) {
         this.mapsList = mapsList;
         notifyDataSetChanged();
     }
@@ -51,13 +49,8 @@ public class MapsAdapter extends RecyclerView.Adapter<MapsAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        LinkedHashMap<String, Long[]> linkedHashMap = mapsList.get(i);
-        Set<String> keySet = linkedHashMap.keySet();
-        String key = "";
-        for (String k:keySet) {key = k;}
-        Long[] valuesResult = linkedHashMap.get(key);
-        viewHolder.name_test_maps.setText(key.toString());
-        viewHolder.tree_map.setText(valuesResult[0].toString());
-        viewHolder.hash_map.setText(valuesResult[1].toString());
+        viewHolder.name_test_maps.setText(mapsList.get(i).nameTest);
+        viewHolder.tree_map.setText(Long.toString(mapsList.get(i).timeTreeMap));
+        viewHolder.hash_map.setText(Long.toString(mapsList.get(i).timeHashMap));
     }
 }

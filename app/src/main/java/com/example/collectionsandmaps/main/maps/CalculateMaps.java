@@ -52,12 +52,12 @@ public class CalculateMaps {
         return stopTime - startTime;
     }
 
-    public ArrayList<LinkedHashMap<String, Long[]>> calculateMapsReault(){
+    public ArrayList<MapsResult> calculateMapsReault(){
         long timeForTreeMap;
         long timeForHashMap;
         Integer keySearch = (int)treeMap.size()/2;
         Integer keyRemoving = (int)treeMap.size()/3;
-        ArrayList<LinkedHashMap<String, Long[]>> listMapsResult = new ArrayList<>();
+        ArrayList<MapsResult> listMapsResult = new ArrayList<>();
 
         init(treeMap);
         init(hashMap);
@@ -77,9 +77,8 @@ public class CalculateMaps {
         return listMapsResult;
     }
 
-    private void addToListTestResult(ArrayList<LinkedHashMap<String, Long[]>> list, String nameTest, long timeTreeMap, long timeHashMap){
-        LinkedHashMap<String, Long[]> result = new LinkedHashMap<>();
-        result.put(nameTest, new Long[]{timeTreeMap,timeHashMap});
-        list.add(result);
+    private void addToListTestResult(ArrayList<MapsResult> list, String nameTest, long timeTreeMap, long timeHashMap){
+        MapsResult testResultMap = new MapsResult(nameTest, timeTreeMap, timeHashMap);
+        list.add(testResultMap);
     }
 }
